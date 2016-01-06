@@ -118,6 +118,7 @@ public class CrudUser {
     }
 
     public User getUserById(int userId) {
+    	connection = DbUtil.getConnection(null);
         User user = new User();
         try {
             PreparedStatement preparedStatement = connection.

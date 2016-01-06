@@ -10,10 +10,10 @@ public class Event{
 	public String lang;
 	public String name;
 	public String description;
-	public Timestamp tim;
+	public String tim;
 	
 	public Event(){}
-	public Event(int id, String estab, String lang, String name ,Timestamp t){
+	public Event(int id, String estab, String lang, String name ,String t){
 		this.id=id;
 		this.estab=estab;
 		this.lang=lang;
@@ -54,11 +54,11 @@ public class Event{
 		this.name = name;
 	}
 
-	public Timestamp getTim() {
+	public String getTim() {
 		return tim;
 	}
 
-	public void setTim(Timestamp tim) {
+	public void setTim(String tim) {
 		this.tim = tim;
 	}
 	

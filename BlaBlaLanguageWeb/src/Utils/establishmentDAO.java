@@ -96,7 +96,7 @@ public class establishmentDAO {
 			   
 			   try {
 				   
-				    String query = "select e.id,e.name,e.telephone,e.address,e.placesavailable,u.Name as \"OwnerName\" from Establishments e"
+				    String query = "select e.id,e.name,e.telephone,e.address,e.placesavailable,e.longitude, e.latitude, u.Name as \"OwnerName\" from Establishments e"
 				    		+ "	inner join Users u	on u.id = e.ownerid order by e.id asc";
 				    
 				    
@@ -115,7 +115,9 @@ public class establishmentDAO {
 	        		 e.setTelephone(rs.getString(3));
 	        		 e.setAddress(rs.getString(4));
 	        		 e.setPlacesAvailable(rs.getInt(5));
-	        		 e.ownerName = rs.getString(6);
+	        		 e.setLongitude(rs.getDouble(6));
+	        		 e.setLatitude(rs.getDouble(7));
+	        		 e.ownerName = rs.getString(8);
 	            	
 	            	lst.add(e);
 	            }

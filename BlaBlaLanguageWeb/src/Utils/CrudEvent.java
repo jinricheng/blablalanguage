@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -140,8 +141,8 @@ public class CrudEvent {
 				e.setName(rs.getString("name"));
 				String estName = this.getEstByName(est);
 				e.setEstab(estName);
-				Timestamp tim = rs.getTimestamp("dateevent");
-				e.setTim(tim);
+				String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rs.getTimestamp("dateevent"));
+				e.setTim(date);
 				e.setDescription(rs.getString("description"));
 			}
 			
@@ -174,8 +175,8 @@ public class CrudEvent {
 					e.setLang(lan);
 					e.setName(nam);
 					e.setEstab(estName);
-					Timestamp tim = rs.getTimestamp("dateevent");
-					e.setTim(tim);
+					String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rs.getTimestamp("dateevent"));
+					e.setTim(date);
 					list.add(e);	
 			}
 			stm1.close();
