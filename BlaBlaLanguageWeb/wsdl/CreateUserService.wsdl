@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CreateUserService" targetNamespace="http://swSoap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://swSoap/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://swSoap/" schemaLocation="CreateUserService_schema1.xsd"></import>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="CreateUserResponse">
+    <wsdl:part name="parameters" element="tns:CreateUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateUser">
+    <wsdl:part name="parameters" element="tns:CreateUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CreateUser">
+    <wsdl:operation name="CreateUser">
+      <wsdl:input name="CreateUser" message="tns:CreateUser">
+    </wsdl:input>
+      <wsdl:output name="CreateUserResponse" message="tns:CreateUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CreateUserServiceSoapBinding" type="tns:CreateUser">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CreateUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="CreateUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="CreateUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CreateUserService">
+    <wsdl:port name="CreateUserPort" binding="tns:CreateUserServiceSoapBinding">
+      <soap:address location="http://localhost:9090/CreateUserPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

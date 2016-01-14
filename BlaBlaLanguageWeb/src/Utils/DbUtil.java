@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 public class DbUtil {
 
     private static Connection connection = null;
-    private static  String XADatasource = "java:jboss/blablalanguage";
+    private static  String XADatasource = "java:jboss/bla";
     
   public static java.sql.Date toSqlDate(String s){
     	

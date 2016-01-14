@@ -24,4 +24,22 @@
     <servlet-name>event</servlet-name>
     <url-pattern>/createEvent</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <display-name>CreateEvent</display-name>
+    <servlet-name>CreateEvent</servlet-name>
+    <servlet-class>swSoap.CreateEvent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateEvent</servlet-name>
+    <url-pattern>/CreateEvent</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>CreateUser</display-name>
+    <servlet-name>CreateUser</servlet-name>
+    <servlet-class>swSoap.CreateUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateUser</servlet-name>
+    <url-pattern>/CreateUser</url-pattern>
+  </servlet-mapping>
 </web-app>
