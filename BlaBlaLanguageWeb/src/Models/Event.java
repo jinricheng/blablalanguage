@@ -1,6 +1,8 @@
 package Models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Event{
 
@@ -11,14 +13,17 @@ public class Event{
 	public String name;
 	public String description;
 	public String tim;
-	
-	public Event(){}
+	public List<String> users;
+	public Event(){
+		users = new ArrayList<String>();
+	}
 	public Event(int id, String estab, String lang, String name ,String t){
 		this.id=id;
 		this.estab=estab;
 		this.lang=lang;
 		this.name=name;
 		this.tim = t;
+		users = new ArrayList<String>();
 	}
 
 	
@@ -67,6 +72,17 @@ public class Event{
 	}
 	
 	public void setDescription(String descrip){
+		
 		this.description=descrip;
+	}
+	
+	public List<String> getPointedUserNameList(){
+		return this.users;
+	}
+	
+	public void addUserToEvent(String u){
+		if(!this.users.contains(u)){
+			this.users.add(u);
+		}	
 	}
 }

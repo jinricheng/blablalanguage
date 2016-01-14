@@ -10,6 +10,7 @@ import java.util.List;
 import javax.naming.InitialContext;
 import javax.servlet.http.HttpSession;
 
+import Models.Event;
 import Models.User;
 
 public class CrudUser {
@@ -131,8 +132,11 @@ public class CrudUser {
                 user.setId(rs.getInt("id"));
                 user.setLogin(rs.getString(servletLogin));
                 user.setName(rs.getString(servletName));
-                user.setPass(rs.getString(servletPass));
+                user.setUserType(rs.getInt("type"));
+                user.setFacebookProfile(rs.getString("facebookprofile"));
+                user.setPass("**********");
                 user.setSex(rs.getString(servletSex));
+                
             }
             preparedStatement.close();
         } catch (SQLException e) {
@@ -141,27 +145,34 @@ public class CrudUser {
 
         return user;
     }
-//    public User getUserByName(String name) {
-//        User user = new User();
-//        try {
-//            PreparedStatement preparedStatement = connection.
-//                    prepareStatement("SELECT * FROM "+databaseName+".users  WHERE name=?");
-//            preparedStatement.setString(1, name);
-//            ResultSet rs = preparedStatement.executeQuery();
-//
-//            if (rs.next()) {
-//            	user.setBirthday(rs.getString(servletBirthday));
-//                user.setId(rs.getInt("id"));
-//                user.setLogin(rs.getString(servletLogin));
-//                user.setName(rs.getString(servletName));
-//                user.setPass(rs.getString(servletPass));
-//                user.setSex(rs.getString(servletSex));
-//            }
-//            preparedStatement.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return user;
-//    }
+
+    public List<Event> getListEventOfUser(int userId)
+    {
+    	List<Event> events = new ArrayList<Event>();
+    	connection = DbUtil.getConnection(null);
+    	
+    	CrudEvent crudEvent = new CrudEvent();
+    	CrudUser crudUser = new CrudUser();
+    	 try {
+             PreparedStatement preparedStatement = connection.
+                     prepareStatement("SELECT * FROM "+databaseName+".eventusers WHERE userid=?");
+             preparedStatement.setInt(1, userId);
+             ResultSet rs = preparedStatement.executeQuery();
+
+             while (rs.next()) {
+             	 int eventId = rs.getInt("event");
+             	 User u = crudUser.getUserById(userId);
+             	 Event e = crudEvent.getEventById(eventId);
+             	 e.addUserToEvent(u.getName());
+             	 events.add(e);
+             }
+             preparedStatement.close();
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+    	 return events;
+    }
+    
+    
+    
 }

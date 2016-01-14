@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import Models.Event;
+import Models.User;
 
 import javax.naming.InitialContext;
 import javax.servlet.http.HttpSession;
@@ -125,6 +126,7 @@ public class CrudEvent {
     
     
     public Event getEventById(int eventId){
+    	con1 = DbUtil.getConnection(null);
     	PreparedStatement st= null;
     	String sql="SELECT * FROM events WHERE id=?";
     	Event e= new Event();
@@ -310,6 +312,32 @@ public class CrudEvent {
 
 		}
 
+	 public List<User> getListUsersOfEvent(int eventId)
+	    {
+	    	List<User> Users = new ArrayList<User>();
+	    	con1 = DbUtil.getConnection(null);
+	    	
+	    	CrudEvent crudEvent = new CrudEvent();
+	    	CrudUser crudUser = new CrudUser();
+	    	 try {
+	             PreparedStatement preparedStatement = con1.
+	                     prepareStatement("SELECT * FROM "+databaseName+".eventusers WHERE event=?");
+	             preparedStatement.setInt(1, eventId);
+	             ResultSet rs = preparedStatement.executeQuery();
+
+	             while (rs.next()) {
+	             	 int userId = rs.getInt("userid");
+	             	 User u = crudUser.getUserById(userId);
+	             	 Event e = crudEvent.getEventById(eventId);
+	             	 
+	             	 Users.add(u);
+	             }
+	             preparedStatement.close();
+	         } catch (SQLException e) {
+	             e.printStackTrace();
+	         }
+	    	 return Users;
+	    }
         // Now you can extract all the records
         // to see the remaining records
     }

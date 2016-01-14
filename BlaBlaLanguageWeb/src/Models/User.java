@@ -1,10 +1,13 @@
 package Models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class User {
 
     private int type;
+    private String typeName;
     private int id;
     private String name;
     private String login;
@@ -14,9 +17,12 @@ public class User {
     private String birthday;
     private String photo;
     private Date dateInclude;
-    
+    private List<Event> events;
 
-    public User(){}
+    public User(){
+    	this.events = new ArrayList<Event>();
+    	
+    }
 
     /**
 	 * @param id the id to set
@@ -37,6 +43,7 @@ public class User {
         this.setFacebookProfile(facebookProfile);
         this.setSex(sex);
         this.setBirthday(birthday);
+        this.events = new ArrayList<Event>();
     }
 
     public Date getDateInclude() {
@@ -111,6 +118,21 @@ public class User {
         this.photo = photo;
     }
 
+    public void setTypeName(String name){
+    	this.typeName = name;
+    }
+    
+    public String getTypeName(){
+    	return this.typeName;
+    }
+    
+    public List<Event> getEventList(){
+    	return this.events;
+    }
+    
+    public void addEventToMyList(Event e){
+    	this.events.add(e);
+    }
     /**
      * Find user at database
      * @param login user login

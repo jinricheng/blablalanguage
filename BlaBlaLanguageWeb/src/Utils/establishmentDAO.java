@@ -140,7 +140,7 @@ public class establishmentDAO {
 			   
 			   try {
 				   
-				    String query = "select e.id,e.name,e.telephone,e.address,e.placesavailable,u.Name as \"OwnerName\" from Establishments e"
+				    String query = "select e.id,e.name,e.telephone,e.address,e.placesavailable,e.longitude,e.latitude,u.Name as \"OwnerName\" from Establishments e"
 				    		+ "	inner join Users u	on u.id = e.ownerid where ownerid = ? order by e.id asc";
 				    
 				     
@@ -161,7 +161,9 @@ public class establishmentDAO {
 	        		 e.setTelephone(rs.getString(3));
 	        		 e.setAddress(rs.getString(4));
 	        		 e.setPlacesAvailable(rs.getInt(5));
-	        		 e.ownerName = rs.getString(6);
+	        		 e.setLongitude(rs.getDouble(6));
+	        		 e.setLatitude(rs.getDouble(7));
+	        		 e.ownerName = rs.getString(8);
 	            	
 	            	lst.add(e);
 	            }
@@ -180,6 +182,81 @@ public class establishmentDAO {
 		   }
 		   
 	   
+		public Establishment getEstablishmentById(int estabId){
+			   
+			   try {
+				   
+				    String query = "select e.id,e.name,e.telephone,e.address,e.placesavailable,e.longitude,e.latitude,u.Name as \"OwnerName\" from Establishments e"
+				    		+ "	inner join Users u	on u.id = e.ownerid where e.id = ? order by e.id asc";
+				    
+				     
+			   
+			   		PreparedStatement preparedStatement = connection.prepareStatement(query);  
+
+			   		preparedStatement.setInt(1, estabId);
+			   		
+			   		ResultSet rs = preparedStatement.executeQuery();
+			   		Establishment e = new Establishment();
+			   	   if(rs.next()){
+			   		 e.setId(rs.getInt(1));
+	        		 e.setName(rs.getString(2));
+	        		 e.setTelephone(rs.getString(3));
+	        		 e.setAddress(rs.getString(4));
+	        		 e.setPlacesAvailable(rs.getInt(5));
+	        		 e.setLongitude(rs.getDouble(6));
+	        		 e.setLatitude(rs.getDouble(7));
+	        		 e.ownerName = rs.getString(8);
+			   	   }
+			   	 
+	            return e;		       
+			 	
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();	            
+		            
+		        }
+		        catch (Exception ex){
+		        	ex.printStackTrace();	        	
+		        }	       
+			   
+			   return null;		   
+			
+		}
+		
+		
+		public List<Establishment> getEstablishmentByName(String name)
+		{
+			List<Establishment> establishments = new ArrayList();
+			try{
+				String query = "select e.id,e.name,e.telephone,e.address,e.placesavailable,e.longitude,e.latitude,u.Name as \"OwnerName\" from Establishments e"
+			    		+ "	inner join Users u	on u.id = e.ownerid where e.name ilike ? order by e.id asc";
+			    
+				PreparedStatement preparedStatement = connection.prepareStatement(query);  
+
+		   		preparedStatement.setString(1, "%"+name+"%");
+		   		
+		   		ResultSet rs = preparedStatement.executeQuery();
+		   		
+		   	   while(rs.next()){
+		   		 Establishment e = new Establishment();
+		   		 e.setId(rs.getInt(1));
+		   		 e.setName(rs.getString(2));
+	       		 e.setTelephone(rs.getString(3));
+	       		 e.setAddress(rs.getString(4));
+	       		 e.setPlacesAvailable(rs.getInt(5));
+	       		 e.setLongitude(rs.getDouble(6));
+	       		 e.setLatitude(rs.getDouble(7));
+	       		 e.ownerName = rs.getString(8);
+        		 establishments.add(e);
+		   	   }
+			}
+			catch(Exception e)
+			{	
+				e.printStackTrace();	
+			}
+			return establishments;
+		
+		}
+		
 	   /*
 	   
 	   public void addUser(User user) {

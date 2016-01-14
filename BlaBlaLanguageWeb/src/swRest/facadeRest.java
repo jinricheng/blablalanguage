@@ -58,7 +58,7 @@ public class facadeRest {
 		return allUsers;
 	}
 	
-	@Path("/json/getUser/{userId}")
+	@Path("/json/getUserById/{userId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public User getUserById(@PathParam("userId") String uId){
@@ -66,6 +66,42 @@ public class facadeRest {
 		CrudUser cruduser = new CrudUser();
 		User user = cruduser.getUserById(userId);	
 		return user;
+	}
+	
+	@Path("/json/getUserByName/{userName}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> getUserByName(@PathParam("userName") String uName){
+		List<User> users = new ArrayList();
+		connection = DbUtil.getConnection(null);
+		PreparedStatement stm;
+		String sql = "SELECT u.id,u.login,u.name,u.facebookprofile,u.birthday,u.sex,t.name FROM "+databaseName+".users u, public.usertypes t WHERE u.name ilike ? and u.type = t.id";
+		
+		try {
+			
+			stm = connection.prepareStatement(sql);
+			stm.setString(1, "%"+uName+"%");
+			ResultSet rs = stm.executeQuery();
+			while(rs.next())
+			{
+				User u = new User();
+				u.setId(rs.getInt(1));
+				u.setLogin(rs.getString(2));
+				u.setName(rs.getString(3));
+				u.setFacebookProfile(rs.getString(4));
+				String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rs.getDate(5));
+				u.setBirthday(date);
+				u.setSex(rs.getString(6));
+				u.setTypeName(rs.getString(7));
+				users.add(u);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return users;
 	}
 	
 	
@@ -138,6 +174,20 @@ public class facadeRest {
 	}
 	
 	
+	@Path("/json/getEventById/{eventId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Event getEventById(@PathParam("eventId") String eId)
+	{
+		int eventId = Integer.valueOf(eId);
+		Event e = new Event();
+		CrudEvent crudEvent= new CrudEvent();
+		e = crudEvent.getEventById(eventId);
+		return e;
+	}
+	
+	
+	
 	@Path("/json/allEstablishments")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -147,6 +197,53 @@ public class facadeRest {
 		establishmentDAO estDao = new establishmentDAO(null);
 		allEstablishments = estDao.getAll();
 		return allEstablishments;
+	}
+	
+	@Path("/json/getEstablishmentById/{establishmentId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Establishment getEstablishmentById(@PathParam("establishmentId") String estabId)
+	{
+		int establishmentId = Integer.valueOf(estabId);
+		Establishment estab = new Establishment();
+		establishmentDAO estDao = new establishmentDAO(null);
+		estab=estDao.getEstablishmentById(establishmentId);
+		return estab;
+	}
+	
+	@Path("/json/getEstablishmentsByName/{estabName}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Establishment> getEstablishmentsByName(@PathParam("estabName") String estabName)
+	{
+		List<Establishment> result = new ArrayList();
+		establishmentDAO estDao = new establishmentDAO(null);
+		result = estDao.getEstablishmentByName(estabName);
+		return result;
+	}
+	
+	
+	@Path("/json/getUserById/{userId}/events")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Event> getUserEvents(@PathParam("userId") String uId)
+	{	int userId = Integer.valueOf(uId);
+		List<Event> result = new ArrayList();
+		CrudUser crudUser = new CrudUser();
+		result = crudUser.getListEventOfUser(userId);
+		return result;
+	}
+	
+	@Path("/json/getEventById/{eventId}/users")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> getEventUsers(@PathParam("eventId") String eId)
+	{
+		int eventId=Integer.valueOf(eId);
+		List<User> result = new ArrayList<>();
+		CrudEvent crudEvent = new CrudEvent();
+		result = crudEvent.getListUsersOfEvent(eventId);
+		return result;
 	}
 	
 	

@@ -37,7 +37,7 @@ My Meetings
 	String la=e.getLang();
 	String est = e.getEstab();
     String name=e.getName();
-	Timestamp t = e.getTim();
+	String t = e.getTim();
 
 %>
 		 <tr>
