@@ -42,4 +42,13 @@
     <servlet-name>CreateUser</servlet-name>
     <url-pattern>/CreateUser</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <display-name>UpdateEvent</display-name>
+    <servlet-name>UpdateEvent</servlet-name>
+    <servlet-class>swSoap.UpdateEvent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateEvent</servlet-name>
+    <url-pattern>/UpdateEvent</url-pattern>
+  </servlet-mapping>
 </web-app>

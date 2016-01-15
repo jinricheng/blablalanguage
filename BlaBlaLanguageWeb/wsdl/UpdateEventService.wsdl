@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="UpdateEventService" targetNamespace="http://swSoap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://swSoap/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://swSoap/" schemaLocation="UpdateEventService_schema1.xsd"></import>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="UpdateEvent">
+    <wsdl:part name="parameters" element="tns:UpdateEvent">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateEventResponse">
+    <wsdl:part name="parameters" element="tns:UpdateEventResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="UpdateEvent">
+    <wsdl:operation name="UpdateEvent">
+      <wsdl:input name="UpdateEvent" message="tns:UpdateEvent">
+    </wsdl:input>
+      <wsdl:output name="UpdateEventResponse" message="tns:UpdateEventResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UpdateEventServiceSoapBinding" type="tns:UpdateEvent">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="UpdateEvent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateEvent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateEventResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UpdateEventService">
+    <wsdl:port name="UpdateEventPort" binding="tns:UpdateEventServiceSoapBinding">
+      <soap:address location="http://localhost:9090/UpdateEventPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
