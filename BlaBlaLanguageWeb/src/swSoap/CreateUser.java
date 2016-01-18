@@ -15,14 +15,15 @@ public class CreateUser {
 		try{
 			User u = new User(name,login,pass,"",sex,birthDay);
 			CrudUser cu = new CrudUser();
-			/*
-				u.setLogin(login);
-				u.setName(name);
-				u.setPass(pass);
-				u.setSex(sex);
-			//u.setBirthday(birthday);	*/
+			if(login.length()==0 || name.length()==0 || pass.length()==0 || sex.length()==0 || birthDay.length()==0)
+			{
+				throw new Exception("invalid parameters format");
+			}
 			
-			//cu.addUser(u, null);
+			User tmp = cu.getUserByLogin(login);
+			if(tmp.getLogin() !=null) throw new Exception("Login already exist");
+			
+			cu.addUser(u, null);
 			ret = u.FormatString();
 			
 		}catch(Exception ex){			

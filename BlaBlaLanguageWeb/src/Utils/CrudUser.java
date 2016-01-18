@@ -22,7 +22,7 @@ public class CrudUser {
     private static final String servletPass = "pass";
     private static final String servletSex = "sex";
     private static final String servletBirthday = "birthday";
-	private static String databaseName="public"; 
+	private static String databaseName="BlaBlaLanguage"; 
     private Connection connection;
 
     public CrudUser() {
@@ -30,16 +30,17 @@ public class CrudUser {
     }
 
     public void addUser(User user, HttpSession session) {
-    	connection = DbUtil.getConnection(session);
+    	//connection = DbUtil.getConnection(session);
+    	connection = DbUtil.getConnection(null);
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT into "+databaseName+".users"
-            		+ "(name, login, pass, sex) values ( ?, ?, ?, ? )");
+        	String stat = "INSERT into users(name, login, pass, sex) values ( ?, ?, ?, ? )";
+            PreparedStatement preparedStatement = connection.prepareStatement(stat);
             // Parameters start with 1
 
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getLogin());
             preparedStatement.setString(3, user.getPass());
-            preparedStatement.setString(4, user.getSex());
+            preparedStatement.setString(4, user.getSex().substring(0,1));
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -145,6 +146,35 @@ public class CrudUser {
 
         return user;
     }
+    
+    public User getUserByLogin(String login) {
+    	connection = DbUtil.getConnection(null);
+        User user = new User();
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("SELECT * FROM users WHERE login=?");
+            preparedStatement.setString(1, login);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+            	user.setBirthday(rs.getString(servletBirthday));
+                user.setId(rs.getInt("id"));
+                user.setLogin(rs.getString(servletLogin));
+                user.setName(rs.getString(servletName));
+                user.setUserType(rs.getInt("type"));
+                user.setFacebookProfile(rs.getString("facebookprofile"));
+                user.setPass("**********");
+                user.setSex(rs.getString(servletSex));
+                
+            }
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+    
 
     public List<Event> getListEventOfUser(int userId)
     {

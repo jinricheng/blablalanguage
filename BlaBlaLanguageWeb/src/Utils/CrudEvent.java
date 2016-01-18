@@ -1,9 +1,11 @@
 package Utils;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLXML;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -35,7 +37,7 @@ public class CrudEvent {
         con1 = null;  
      }
     
-    public void createEvent(Event event,HttpSession session){
+    public boolean createEvent(Event event,HttpSession session){
     	
     	String strResultado = "No se sabe";
 		PreparedStatement st= null;
@@ -49,16 +51,23 @@ public class CrudEvent {
 			String sql1 = "insert into Events(Establishment,Language,Name,DateEvent,Description,DateInclude,Active)"
 						+ " VALUES (?,?,?,?,?,?,?)";			
 				
-					st=con1.prepareStatement(sql1);
+					st=con1.prepareStatement(sql1);					
 					
+				    if(event.getEstabId()==0){ 
+				    	event.setEstabId(Integer.parseInt(event.getEstab()));
+				    }
+					
+				    if(event.getLangId()==0){ 
+				    	event.setLangId(Integer.parseInt(event.getLang()));
+				    }
 				    
-					estab=this.getEstById(event.getEstab());
-				    lang = this.getLanById(event.getLang());
+				    Timestamp dateEvent = new Timestamp(Long.parseLong(event.getTim()));
 				    
-					st.setInt(1, Integer.parseInt(event.getEstab()) );		   
-					st.setInt(2,Integer.parseInt(event.getLang()));  
+				    
+					st.setInt(1, (event.getEstabId()));		   
+					st.setInt(2,(event.getLangId()));  
 					st.setString(3, event.getName());			   
-					st.setTimestamp(4, this.getCurrentTimeStamp());			  
+					st.setTimestamp(4, dateEvent);			  
 					st.setString(5,event.getDescription());			  
 					st.setTimestamp(6, this.getCurrentTimeStamp());			  
 					st.setBoolean(7, true);			    			   
@@ -66,48 +75,66 @@ public class CrudEvent {
 					strResultado = "Sí. Operación realizada correctamente.";
 					
 					st.close();	
+					return true;
 					
 				}
-			catch(Exception e){ e.printStackTrace(); strResultado.concat("No, error al insertar la fila en la BBDD"); }
-		
-    	
+			catch(Exception e){ 
+				//e.printStackTrace(); 
+				//throw e;//strResultado.concat("No, error al insertar la fila en la BBDD"); 
+				return false;
+				}
     	
     }
     
-   public void updateEvent(Event event, HttpSession session){
+   public Boolean updateEvent(Event event, HttpSession session){
     	
     	con1 = DbUtil.getConnection(session);
 		PreparedStatement st;
 		
 		try{	
-			String sql1 = "update Events set name=? where id=?";			
+			String sql1 = "update Events set "
+							+ "  Establishment=?"
+							+ ", Language=?"
+							+ ", Name=?"
+							+ ", DateEvent=?"
+							+ ", Description=?"
+							+ " where id=?";			
 			
 			st=con1.prepareStatement(sql1);
 			
-		    
-			int estab=this.getEstById(event.getEstab());
-		    int lang = this.getLanById(event.getLang());
-		    
-		    /*st.setInt(1,estab);		   
-			st.setInt(2,lang);	
-			st.setTimestamp(4, this.getCurrentTimeStamp());			  
-			st.setString(5,event.getDescription());
 			
-			*/	   
-			st.setString(1, event.getName());		
-			st.setInt(2, event.getId());			
-			st.executeUpdate();	
-			st.close();
+
+		    if(event.getEstabId()==0){ 
+		    	event.setEstabId(Integer.parseInt(event.getEstab()));
+		    }
+			
+		    if(event.getLangId()==0){ 
+		    	event.setLangId(Integer.parseInt(event.getLang()));
+		    }
+		    
+		    Timestamp dateEvent = new Timestamp(Long.parseLong(event.getTim()));
+		    
+		    
+			st.setInt(1, (event.getEstabId()));		   
+			st.setInt(2,(event.getLangId()));  
+			st.setString(3, event.getName());			   
+			st.setTimestamp(4, dateEvent);			  
+			st.setString(5,event.getDescription());			  
+			st.setInt(6, event.getId());
+			st.executeUpdate();		
+			
+			return true;
 
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}	
     }
     
  
-    public void deleteEvent(int eventId, HttpSession session){
+public void deleteEvent(int eventId, HttpSession session){
     	
     	con1 = DbUtil.getConnection(session);
 		Statement stm1;

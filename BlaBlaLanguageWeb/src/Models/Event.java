@@ -1,19 +1,22 @@
 package Models;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Event{
 
-
 	public int id;
 	public String estab;
+	public int estabId;
 	public String lang;
+	public int langId;
 	public String name;
 	public String description;
 	public String tim;
 	public List<String> users;
+	public Date date;
 	public Event(){
 		users = new ArrayList<String>();
 	}
@@ -66,7 +69,7 @@ public class Event{
 	public void setTim(String tim) {
 		this.tim = tim;
 	}
-	
+		
 	public String getDescription(){
 		return this.description;
 	}
@@ -84,5 +87,22 @@ public class Event{
 		if(!this.users.contains(u)){
 			this.users.add(u);
 		}	
+	}
+	
+	public int getLangId() {
+		return langId;
+	}
+
+	public void setLangId(int langId) {
+		this.langId = langId;
+	}
+	
+	
+	public int getEstabId() {
+		return estabId;
+	}
+
+	public void setEstabId(int estabId) {
+		this.estabId = estabId;
 	}
 }
