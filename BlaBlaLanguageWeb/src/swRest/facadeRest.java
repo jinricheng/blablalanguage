@@ -48,7 +48,7 @@ public class facadeRest {
 	}
 	
 
-	@Path("/json/allusers")
+	@Path("/json/users")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> getAllUsers(){
@@ -58,7 +58,7 @@ public class facadeRest {
 		return allUsers;
 	}
 	
-	@Path("/json/getUserById/{userId}")
+	@Path("/json/users/id/{userId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public User getUserById(@PathParam("userId") String uId){
@@ -68,7 +68,7 @@ public class facadeRest {
 		return user;
 	}
 	
-	@Path("/json/getUserByName/{userName}")
+	@Path("/json/users/name/{userName}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> getUserByName(@PathParam("userName") String uName){
@@ -105,7 +105,7 @@ public class facadeRest {
 	}
 	
 	
-	@Path("/json/allLanguages")
+	@Path("/json/languages")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Language> getAllLanguages()
@@ -131,7 +131,7 @@ public class facadeRest {
 		return allLanguages;	
 	}
 	
-	@Path("/json/getLanguage/{languageId}")
+	@Path("/json/languages/id/{languageId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Language getLanguageById(@PathParam("languageId") String lanId){
@@ -162,7 +162,7 @@ public class facadeRest {
 	
 	
 	
-	@Path("/json/allEvents")
+	@Path("/json/events")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Event> getAllMeetings()
@@ -174,7 +174,7 @@ public class facadeRest {
 	}
 	
 	
-	@Path("/json/getEventById/{eventId}")
+	@Path("/json/events/id/{eventId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Event getEventById(@PathParam("eventId") String eId)
@@ -188,7 +188,7 @@ public class facadeRest {
 	
 	
 	
-	@Path("/json/allEstablishments")
+	@Path("/json/establishments")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Establishment> getAllEstablishments()
@@ -199,7 +199,7 @@ public class facadeRest {
 		return allEstablishments;
 	}
 	
-	@Path("/json/getEstablishmentById/{establishmentId}")
+	@Path("/json/establishments/Id/{establishmentId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Establishment getEstablishmentById(@PathParam("establishmentId") String estabId)
@@ -211,7 +211,7 @@ public class facadeRest {
 		return estab;
 	}
 	
-	@Path("/json/getEstablishmentsByName/{estabName}")
+	@Path("/json/establishments/name/{estabName}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Establishment> getEstablishmentsByName(@PathParam("estabName") String estabName)
@@ -223,7 +223,7 @@ public class facadeRest {
 	}
 	
 	
-	@Path("/json/getUserById/{userId}/events")
+	@Path("/json/users/id/{userId}/events")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Event> getUserEvents(@PathParam("userId") String uId)
@@ -234,7 +234,7 @@ public class facadeRest {
 		return result;
 	}
 	
-	@Path("/json/getEventById/{eventId}/users")
+	@Path("/json/events/id/{eventId}/users")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> getEventUsers(@PathParam("eventId") String eId)
